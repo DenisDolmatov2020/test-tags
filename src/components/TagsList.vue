@@ -1,10 +1,10 @@
-<template>
+<template functional>
   <div class="block">
     <div
-      v-for="(tag, index) in tags"
+      v-for="(tag, index) in props.tags"
       :key="index"
       class="block__item"
-      :class="{ 'block__item-grow': spaceBetween }"
+      :class="{ 'block__item-grow': props.spaceBetween }"
     >
       <span class="block__item-dot" >
          <v-icon color="black" v-text="'mdi-circle-small'" />
@@ -17,24 +17,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'TagsList',
-
-  props: {
-    tags: {
-      type: Array,
-      default: () => []
-    },
-
-    spaceBetween: {
-      type: Boolean,
-      default: false
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 .block {
