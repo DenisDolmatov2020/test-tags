@@ -41,27 +41,25 @@ export default {
   methods: {
     resizeHandler () {
       const blockWidth = this.$refs.block.clientWidth
-      const tags = this.$refs.tag
-      const dots = this.$refs.dot
+      const children = this.$refs.block.children
 
       let tagsWidth = 0
       let tagsVisible = 0
       let enough = true
 
-      for (let i = 0; i < tags.length; i++) {
-        if (enough && (tagsWidth + tags[i].offsetWidth + dots[i].offsetWidth) < blockWidth) {
-          tagsVisible = i
-          tagsWidth += tags[i].offsetWidth + dots[i].offsetWidth
-          tags[i].classList.remove('hidden')
-          dots[i].classList.remove('hidden')
+      for (let i = 0; i < children.length; i++) {
+        children[tagsVisible].classList.remove('hidden')
+        if (enough && (tagsWidth + children[i].scrollWidth) < blockWidth) {
+          tagsVisible = i % 2 ? i : children.length - 1
+          tagsWidth += children[i].scrollWidth
+          children[i].classList.remove('hidden')
         } else {
           enough = false
-          tags[i].classList.add('hidden')
-          dots[i].classList.add('hidden')
+          children[i].classList.add('hidden')
         }
       }
 
-      dots[tagsVisible].classList.add('hidden')
+      children[tagsVisible].classList.add('hidden')
     }
   }
 }
@@ -69,7 +67,8 @@ export default {
 
 <style lang="scss" scoped>
 .hidden {
-  display: none;
+  position: absolute;
+  top: -9999px;
 }
 
 .block {

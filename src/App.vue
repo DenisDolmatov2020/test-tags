@@ -7,7 +7,11 @@
         :style="{ width: event.width }"
       >
         <h3 class="mb-2">{{ event.title }}</h3>
+        <div>#1</div>
         <TagsList :tags="tags" :justify="event.justify" :width="event.width" />
+        <hr class="mx-1" />
+        <div>#2</div>
+        <TagsList2 :tags="tags" :justify="event.justify" :width="event.width" />
         <hr class="mx-1" />
       </div>
     </v-main>
@@ -16,12 +20,14 @@
 
 <script>
 import TagsList from '@/components/TagsList'
+import TagsList2 from '@/components/TagsList2'
 
 export default {
   name: 'App',
 
   components: {
-    TagsList
+    TagsList,
+    TagsList2
   },
 
   data: () => ({
