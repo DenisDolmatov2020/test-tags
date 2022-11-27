@@ -1,11 +1,11 @@
 <template>
-  <div id="block" :style="{ justifyContent: justify }">
-    <template v-for="(tag, index) in updatedTags">
-      <span :key="index" class="block__item-dot" :class="{ hidden: tag.dotHidden }">
+  <div ref="block" class="block" :style="{ justifyContent: justify }">
+    <template v-for="(tag, index) in tags">
+      <span :key="index" class="block__item-dot" :class="{ hidden: !index || index >= tagsVisible }">
         <v-icon color="black" v-text="'mdi-circle-small'" />
       </span>
 
-      <div ref="tag" :key="'tag_' + index" class="block__item-tag" :class="{ hidden: tag.tagHidden }">
+      <div ref="tag" :key="'tag_' + index" class="block__item-tag" :class="{ hidden: index >= tagsVisible }">
         <v-icon v-text="tag.icon" />
         {{ tag.text }}
       </div>
@@ -32,7 +32,7 @@ export default {
 
   data () {
     return {
-      updatedTags: this.tags
+      tagsVisible: 0
     }
   },
 
@@ -47,41 +47,22 @@ export default {
 
   methods: {
     resizeHandler () {
-      const blockWidth = document.getElementById('block').offsetWidth
       const tags = this.$refs.tag
       const dots = document.getElementsByTagName('span')
-      const dotWidth = dots[0].scrollWidth
 
-      this.updatedTags = []
+      this.tagsVisible = 0
+      let tagsWidth = 0
 
       for (let i = 0; i < tags.length; i++) {
-        this.updatedTags.push({ ...this.tags[i] })
-        const tagsWidth = i ? this.updatedTags[i - 1].tagsWidth : 0
-        this.updatedTags[i].tagsWidth = tagsWidth + tags[i].scrollWidth + dotWidth
-        this.updatedTags[i].tagHidden = this.updatedTags[i].tagsWidth > blockWidth
+        tagsWidth += tags[i].scrollWidth + dots[0].scrollWidth
 
-        if (!i || this.updatedTags[i - 1].tagHidden || this.updatedTags[i].tagHidden) {
-          this.updatedTags[i].dotHidden = true
+        if (tagsWidth < this.$refs.block.clientWidth) {
+          this.tagsVisible += 1
+        } else {
+          return
         }
       }
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.hidden {
-  display: none;
-}
-
-#block {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-wrap: nowrap;
-
-  .block__item-tag {
-      white-space: nowrap;
-  }
-}
-</style>

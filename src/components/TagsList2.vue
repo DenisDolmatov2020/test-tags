@@ -62,24 +62,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.hidden {
-  position: absolute;
-  top: -9999px;
-}
-
-.block {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-wrap: nowrap;
-
-  &__item {
-
-    &-tag {
-      white-space: nowrap;
-    }
-  }
-}
-</style>
