@@ -1,11 +1,11 @@
 <template>
   <div ref="block" class="block" :style="{ justifyContent: justify }">
     <template v-for="(tag, index) in tags">
-      <div ref="tag" :key="'tag_' + index" class="block__item-tag">
+      <div :key="'tag_' + index" class="block__item-tag">
         <v-icon v-text="tag.icon" />
         {{ tag.text }}
       </div>
-      <span ref="dot" :key="index" class="block__item-dot">
+      <span :key="index" class="block__item-dot">
         <v-icon color="black" v-text="'mdi-circle-small'" />
       </span>
     </template>
@@ -44,22 +44,20 @@ export default {
       const children = this.$refs.block.children
 
       let tagsWidth = 0
-      let tagsVisible = 0
-      let enough = true
+      let tagsVisible = null
 
       for (let i = 0; i < children.length; i++) {
-        children[tagsVisible].classList.remove('hidden')
-        if (enough && (tagsWidth + children[i].scrollWidth) < blockWidth) {
-          tagsVisible = i % 2 ? i : children.length - 1
+        if (!tagsVisible && (tagsWidth + children[i].scrollWidth) < blockWidth) {
           tagsWidth += children[i].scrollWidth
           children[i].classList.remove('hidden')
         } else {
-          enough = false
+          tagsVisible = i
+          if (i && i % 2 === 0) children[i - 1].classList.add('hidden')
           children[i].classList.add('hidden')
         }
       }
 
-      children[tagsVisible].classList.add('hidden')
+      children[tagsVisible || (children.length - 1)].classList.add('hidden')
     }
   }
 }

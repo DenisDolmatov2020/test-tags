@@ -13,6 +13,9 @@
         <div>#2</div>
         <TagsList2 :tags="tags" :justify="event.justify" :width="event.width" />
         <hr class="mx-1" />
+        <div>#3</div>
+        <TagsList3 :tags="tags" :justify="event.justify" :width="event.width" />
+        <hr class="mx-1" />
       </div>
     </v-main>
   </v-app>
@@ -21,13 +24,15 @@
 <script>
 import TagsList from '@/components/TagsList'
 import TagsList2 from '@/components/TagsList2'
+import TagsList3 from '@/components/TagsList3'
 
 export default {
   name: 'App',
 
   components: {
     TagsList,
-    TagsList2
+    TagsList2,
+    TagsList3
   },
 
   data: () => ({
