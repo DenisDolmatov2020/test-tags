@@ -48,7 +48,6 @@ export default {
   methods: {
     resizeHandler () {
       const blockWidth = document.getElementById('block').offsetWidth
-      console.log(blockWidth)
       const tags = this.$refs.tag
       const dots = document.getElementsByTagName('span')
       const dotWidth = dots[0].scrollWidth
